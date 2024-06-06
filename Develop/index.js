@@ -1,6 +1,7 @@
 // TODO: Include packages needed for this application
 const inquirer = require('inquirer');
 const fs = require('fs');
+const generateMarkdown = require('./generateMarkdown');
 
 // TODO: Create an array of questions for user input
 const questions = [
@@ -21,18 +22,34 @@ const questions = [
 },
 {
     type: 'input',
-    name: 'Usage',
-    message: 'What is the title of the Project?'
+    name: 'usage',
+    message: 'What is the usage of the Project?'
 },
 {
     type: 'input',
-    name: 'Contribution',
-    message: 'What is the title of the Project?'
+    name: 'contribution',
+    message: 'Who contributed to the project?'
 },
 {
     type: 'input',
     name: 'test',
-    message: 'What is the title of the Project?'
+    message: 'What are the tests of the Project?'
+},
+{
+    type: 'input',
+    name: 'github',
+    message: 'What is your github username?'
+},
+{
+    type: 'input',
+    name: 'email',
+    message: 'What is your email address?'
+},
+{
+    type: 'list',
+    name: 'license',
+    message: 'What is license you used for your project?',
+    choices: ['MIT', 'GPLv3', 'Apache 2.0', 'BSD 3-Clause', 'None']
 },
 ];
 
@@ -45,7 +62,10 @@ function writeToFile(fileName, data) {
 
 // TODO: Create a function to initialize app
 function init() {
-
+ inquirer.prompt(questions).then(answers => {
+    const readmeContent = generateMarkdown(answers);
+    writeToFile('README.md',readmeContent);
+ });
 }
 
 // Function call to initialize app
